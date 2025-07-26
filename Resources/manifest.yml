@@ -1,5 +1,5 @@
-﻿defaultWindowTitle: Space Station 14
-windowIconSet: /Textures/Logo/icon
-splashLogo: /Textures/Logo/logo.png
+﻿defaultWindowTitle: Prospect Sector # Prospect
+windowIconSet: /Textures/_PS/Logo/icon # Prospect
+splashLogo: /Textures/_PS/Logo/logo.png # Prospect
 
 # PJB PLEASE
