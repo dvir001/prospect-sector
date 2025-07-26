@@ -41,12 +41,10 @@
   - any-glob-to-any-file: "Resources/Locale/**/*.ftl"
 
 "YML":
-- changed-files:
-  # Include all .yml files in the repository
-  - any-glob-to-any-file: "**/*.yml"
-- changed-files:
-  # Exclude .yml files in the _PS subdirectories of Maps and Prototypes/Maps
-  - all-globs-to-all-files:
+- all:
+  - changed-files:
+    - any-glob-to-any-file: "**/*.yml"
+    - all-globs-to-any-file:
       - "!Resources/Maps/_PS/**/*.yml"
       - "!Resources/Prototypes/Maps/_PS/**/*.yml"
 
