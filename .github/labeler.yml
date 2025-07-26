@@ -42,9 +42,11 @@
 
 "YML":
 - all:
+  # Include all .yml files in the repository
   - changed-files:
     - any-glob-to-any-file: "**/*.yml"
-    - all-globs-to-any-file:
+  # Exclude .yml files in the _PS subdirectories of Maps and Prototypes/Maps
+  - all-globs-to-any-file:
       - "!Resources/Maps/_PS/**/*.yml"
       - "!Resources/Prototypes/Maps/_PS/**/*.yml"
 
