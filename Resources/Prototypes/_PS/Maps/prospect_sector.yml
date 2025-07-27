@@ -1,0 +1,21 @@
+﻿- type: gameMap
+  id: Prospect
+  mapName: 'Prospect'
+  mapPath: /Maps/box.yml
+  #mapPath: /Maps/_PS/Outpost/prospect.yml
+  minPlayers: 0
+  maxPlayers: 50
+  randomRotation: false
+  maxRandomOffset: 0
+  stations:
+    Prospect:
+      stationProto: StandardNanotrasenStation
+      components:
+      - type: StationNameSetup
+        mapNameTemplate: 'Prospector {1}'
+        nameGenerator:
+          !type:NanotrasenNameGenerator
+          prefixCreator: 'E-'
+      - type: StationJobs
+        availableJobs:
+          Passenger: [ -1, -1 ]
