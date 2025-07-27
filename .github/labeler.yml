@@ -1,26 +1,53 @@
-﻿"Changes: Sprites":
-- changed-files:
-  - any-glob-to-any-file: '**/*.rsi/*.png'
-
-"Changes: Map":
+﻿"Changes: Map":
 - changed-files:
   - any-glob-to-any-file:
     - 'Resources/Maps/**/*.yml'
     - 'Resources/Prototypes/Maps/**/*.yml'
 
-"Changes: UI":
+"Sprites":
 - changed-files:
-  - any-glob-to-any-file: '**/*.xaml*'
+  - any-glob-to-any-file:
+    - "**/*.rsi/*.png"
+    - "**/*.rsi/*.json"
 
-"Changes: Shaders":
+"UI":
+- changed-files:
+  - any-glob-to-any-file: "**/*.xaml*"
+
+"C#":
+- changed-files:
+  - any-glob-to-any-file: "**/*.cs"
+
+"Shaders":
 - changed-files:
   - any-glob-to-any-file: '**/*.swsl'
 
-"Changes: Audio":
+"Audio":
 - changed-files:
   - any-glob-to-any-file: '**/*.ogg'
 
-"Changes: No C#":
+"No C#":
 - changed-files:
-  # Equiv to any-glob-to-all as long as this has one matcher. If ALL changed files are not C# files, then apply label.
   - all-globs-to-all-files: "!**/*.cs"
+
+"Docs":
+- changed-files:
+  - any-glob-to-any-file:
+    - "**/*.xml"
+    - "**/*.md"
+
+"FTL":
+- changed-files:
+  - any-glob-to-any-file: "Resources/Locale/**/*.ftl"
+
+"YML":
+- all:
+  - changed-files:
+    - any-glob-to-any-file: "**/*.yml"
+    - all-globs-to-any-file:
+      - "!Resources/Maps/_PS/**/*.yml"
+      - "!Resources/Prototypes/Maps/_PS/**/*.yml"
+
+"DB Migration":
+- changed-files:
+  - any-glob-to-any-file: "Content.Server.Database/Migrations/**/*.cs"
