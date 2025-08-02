@@ -67,7 +67,7 @@ async function main() {
     });
 
     if (!success)
-        return process.exit(1);
+        process.exit(1);
 
     console.log("Changelog is valid.")
     if (author)
