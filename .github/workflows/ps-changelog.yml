@@ -45,6 +45,14 @@ jobs:
           node changelog.js
         shell: bash
 
+      - name: Verify Current Branch
+        run: |
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          if [ "$CURRENT_BRANCH" != "${{ vars.CHANGELOG_BRANCH }}" ]; then
+            echo "Error: Current branch ($CURRENT_BRANCH) does not match target changelog branch (${{ vars.CHANGELOG_BRANCH }})."
+            exit 1
+          fi
+        shell: bash
       - name: Commit Changelog
         run: |
           git pull --rebase origin ${{ vars.CHANGELOG_BRANCH }}
