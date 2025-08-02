@@ -94,7 +94,7 @@ function getChanges(body) {
     if (matches.length === 0)
     {
         console.log("No changes found, skipping");
-        return;
+        return [];
     }
 
 
