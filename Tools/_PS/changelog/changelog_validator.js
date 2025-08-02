@@ -91,7 +91,7 @@ function getChanges(body) {
     if (matches.length === 0)
     {
         console.log("No changelog entries found.");
-        return;
+        return {entries: [], errors: []};
     }
 
     // Check change types and construct changelog entry
