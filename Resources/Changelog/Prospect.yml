@@ -1,8 +1,14 @@
-﻿Entries:
+Entries:
 - author: dvir001
   changes:
-  - {message: 'Created the prospect changelog.', type: Add}
+    - message: Created the prospect changelog.
+      type: Add
   id: 1
   time: '2025-08-02T04:26:00.0000000+00:00'
-Name: Prospect
-Order: -2
+- author: dvir001
+  changes:
+    - type: Add
+      message: Added automated changelog.
+  id: 2
+  time: '2025-08-02T00:50:54.0000000+00:00'
+  url: https://github.com/Prospect-Sector/prospect-sector/pull/16
