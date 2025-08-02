@@ -1,4 +1,4 @@
-name: "PR Changelog Validator"
+name: "PR: Changelog Validator"
 
 on:
   pull_request:
