@@ -1,6 +1,4 @@
 AdminOnly: true
-Name: Prospect Admin
-Order: -1
 Entries:
 - author: dvir001
   changes:
@@ -15,3 +13,4 @@ Entries:
   id: 2
   time: '2025-08-02T00:50:54.0000000+00:00'
   url: https://github.com/Prospect-Sector/prospect-sector/pull/16
+Order: 1
