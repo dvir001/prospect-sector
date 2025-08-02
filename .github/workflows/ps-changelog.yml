@@ -53,6 +53,7 @@ jobs:
             exit 1
           fi
         shell: bash
+
       - name: Commit Changelog
         run: |
           git pull --rebase origin ${{ vars.CHANGELOG_BRANCH }}
