@@ -13,7 +13,7 @@ async function main() {
     /*
     if (!process.env.CHANGELOG_DIR) {
         console.log("CHANGELOG_DIR not defined, exiting.");
-        return process.exit(1);
+        process.exit(1);
     }
 
     const ChangelogFilePath = `../../../${process.env.CHANGELOG_DIR}`
