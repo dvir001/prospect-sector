@@ -19,3 +19,10 @@ Entries:
   id: 3
   time: '2025-08-02T13:25:09.0000000+00:00'
   url: https://github.com/Prospect-Sector/prospect-sector/pull/20
+- author: dvir001
+  changes:
+    - type: Fix
+      message: Fixed changelog order.
+  id: 4
+  time: '2025-08-02T13:38:09.0000000+00:00'
+  url: https://github.com/Prospect-Sector/prospect-sector/pull/21
