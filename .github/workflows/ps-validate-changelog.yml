@@ -23,5 +23,5 @@ jobs:
     - name: Validate Changelog
       run: |
         cd "Tools/_PS/changelog"
-        node validate_changelog.js
+        node changelog_validator.js
       shell: bash
