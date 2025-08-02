@@ -7,7 +7,6 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
   CHANGELOG_DIR: Resources/Changelog/Prospect.yml # Prospect: Changelog.yml<Prospect.yml
-  PROSPECT_ADMIN_CHANGELOG_DIR: Resources/Changelog/ProspectAdmin.yml # Prospect: Prospect Admin changelog file
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
@@ -45,14 +44,6 @@ jobs:
         run: |
           cd "Tools/_PS/changelog"
           export CHANGELOG_DIR="${{ env.CHANGELOG_DIR }}"
-          node changelog.js
-        shell: bash
-        continue-on-error: true
-
-      - name: Generate Prospect Admin Changelog
-        run: |
-          cd "Tools/_PS/changelog"
-          export CHANGELOG_DIR="${{ env.PROSPECT_ADMIN_CHANGELOG_DIR }}"
           node changelog.js
         shell: bash
         continue-on-error: true
