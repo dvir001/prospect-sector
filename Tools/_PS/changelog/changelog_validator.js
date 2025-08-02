@@ -34,7 +34,7 @@ async function main() {
     const body = event.pull_request && event.pull_request.body ? event.pull_request.body : '';
 
     // Remove comments from the body
-    commentlessBody = body.replace(CommentRegex, '');
+    let commentlessBody = body.replace(CommentRegex, '');
 
     // Get author
     const headerMatch = HeaderRegex.exec(commentlessBody);
