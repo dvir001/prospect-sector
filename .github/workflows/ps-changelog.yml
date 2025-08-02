@@ -52,7 +52,7 @@ jobs:
       - name: Generate Prospect Admin Changelog
         run: |
           cd "Tools/_PS/changelog"
-          export CHANGELOG_FILE="${{ env.PROSPECT_ADMIN_CHANGELOG_DIR }}"
+          export CHANGELOG_DIR="${{ env.PROSPECT_ADMIN_CHANGELOG_DIR }}"
           node changelog.js
         shell: bash
         continue-on-error: true
