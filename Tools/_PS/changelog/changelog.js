@@ -26,7 +26,7 @@ async function main() {
     const { merged_at, body, user } = pr.data;
 
     // Remove comments from the body
-    commentlessBody = body.replace(CommentRegex, '');
+    let commentlessBody = body.replace(CommentRegex, '');
 
     // Get author
     const headerMatch = HeaderRegex.exec(commentlessBody);
