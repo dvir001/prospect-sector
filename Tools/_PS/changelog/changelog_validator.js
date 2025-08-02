@@ -57,7 +57,7 @@ async function main() {
     if (results.entries.length <= 0)
     {
         console.log("PR has a changelog header but no valid entries. Either remove the changelog completely, or use entries of the format '- add: text', '- remove: text', '- tweak: text', or '- fix: text'.");
-        return process.exit(1);
+        process.exit(1);
     }
 
     let success = true;
