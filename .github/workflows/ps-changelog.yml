@@ -16,7 +16,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout Master
+      - name: Checkout Main
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.BOT_TOKEN }}
