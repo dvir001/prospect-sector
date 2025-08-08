@@ -26,3 +26,10 @@ Entries:
   id: 4
   time: '2025-08-02T13:38:09.0000000+00:00'
   url: https://github.com/Prospect-Sector/prospect-sector/pull/21
+- author: dvir001
+  changes:
+    - type: Tweak
+      message: Updated map pool config.
+  id: 5
+  time: '2025-08-08T13:32:29.0000000+00:00'
+  url: https://github.com/Prospect-Sector/prospect-sector/pull/23
