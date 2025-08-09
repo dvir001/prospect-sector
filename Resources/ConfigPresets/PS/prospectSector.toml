@@ -7,11 +7,11 @@ lobbyenabled     = true
 soft_max_players = 80
 lobbyduration    = 300 # 5 minutes lobby timer
 #panic_bunker.enabled = true
-panic_bunker.min_overall_minutes = 120
-panic_bunker.disable_with_admins = true
-panic_bunker.enable_without_admins = true
-panic_bunker.show_reason = true
-panic_bunker.custom_reason = "You have not played on a Prospect Sector server long enough to connect to this server."
+#panic_bunker.min_overall_minutes = 120
+#panic_bunker.disable_with_admins = true
+#panic_bunker.enable_without_admins = true
+#panic_bunker.show_reason = true
+#panic_bunker.custom_reason = "You have not played on a Prospect Sector server long enough to connect to this server."
 
 # IPIntel stuff
 #ipintel_enabled = true
