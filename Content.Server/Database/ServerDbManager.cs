@@ -1162,6 +1162,7 @@ namespace Content.Server.Database
             if (!Enum.TryParse<Npgsql.SslMode>(sslModeString, true, out var sslModeParsed))
                 sslModeParsed = Npgsql.SslMode.Require;
             npgBuilder.SslMode = sslModeParsed;
+            npgBuilder.TrustServerCertificate = trustServerCert;
 
             var connectionString = npgBuilder.ConnectionString;
 
