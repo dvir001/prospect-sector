@@ -1160,7 +1160,7 @@ namespace Content.Server.Database
 
             // Prospect: SSL mode and trust server certificate.
             if (!Enum.TryParse<Npgsql.SslMode>(sslModeString, true, out var sslModeParsed))
-                sslModeParsed = Npgsql.SslMode.Require;
+                sslModeParsed = Npgsql.SslMode.Disable;
             npgBuilder.SslMode = sslModeParsed;
             npgBuilder.TrustServerCertificate = trustServerCert;
 
