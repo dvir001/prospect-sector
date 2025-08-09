@@ -82,7 +82,7 @@ public sealed partial class CCVars
         CVarDef.Create("database.pg_sslmode", "Require", CVar.SERVERONLY);
 
     public static readonly CVarDef<bool> DatabasePgTrustServerCertificate =
-        CVarDef.Create("database.pg_trust_server_certificate", false, CVar.SERVERONLY);
+        CVarDef.Create("database.pg_trust_server_certificate", true, CVar.SERVERONLY);
     /// <summary>
     /// End Prospect: Added for SSL/TLS support ---
     /// </summary>
