@@ -1145,6 +1145,9 @@ namespace Content.Server.Database
             var user = _cfg.GetCVar(CCVars.DatabasePgUsername);
             var pass = _cfg.GetCVar(CCVars.DatabasePgPassword);
 
+            var sslModeString = _cfg.GetCVar(CCVars.DatabasePgSslMode); // Prospect
+            var trustServerCert = _cfg.GetCVar(CCVars.DatabasePgTrustServerCertificate); // Prospect
+
             var builder = new DbContextOptionsBuilder<PostgresServerDbContext>();
             var connectionString = new NpgsqlConnectionStringBuilder
             {
@@ -1155,7 +1158,17 @@ namespace Content.Server.Database
                 Password = pass
             }.ConnectionString;
 
-            _sawmill.Debug($"Using Postgres \"{host}:{port}/{db}\"");
+            // Prospect: SSL mode and trust server certificate.
+            if (!Enum.TryParse<Npgsql.SslMode>(sslModeString, true, out var sslModeParsed))
+                sslModeParsed = Npgsql.SslMode.Require;
+            npgBuilder.SslMode = sslModeParsed;
+
+            npgBuilder.TrustServerCertificate = trustServerCert;
+
+            var connectionString = npgBuilder.ConnectionString;
+
+            _sawmill.Debug($"Using Postgres \"{host}:{port}/{db}\" SSLMode={npgBuilder.SslMode} TrustServerCertificate={npgBuilder.TrustServerCertificate}");
+            // End Prospect: SSL mode and trust server certificate.
 
             builder.UseNpgsql(connectionString);
             SetupLogging(builder);

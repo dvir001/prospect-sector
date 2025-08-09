@@ -54,23 +54,6 @@ public sealed partial class CCVars
         CVarDef.Create("database.pg_password", "", CVar.SERVERONLY | CVar.CONFIDENTIAL);
 
     /// <summary>
-    /// Prospect: Added for SSL/TLS support ---
-    /// </summary>
-    public static readonly CVarDef<string> DatabasePgSslMode =
-        CVarDef.Create("database.pg_sslmode", "Require", CVar.SERVERONLY); // sslmode values: Disable, Require, VerifyCA, VerifyFull (we default to Require).
-
-    // When true, adds Trust Server Certificate=true to the connection string (NOT recommended for production).
-    public static readonly CVarDef<bool> DatabasePgTrustServerCertificate =
-        CVarDef.Create("database.pg_trust_server_certificate", true, CVar.SERVERONLY);
-
-    // Optional absolute path to a root CA certificate file. If set (non-empty), we include Root Certificate=...
-    public static readonly CVarDef<string> DatabasePgRootCert =
-        CVarDef.Create("database.pg_root_cert", "", CVar.SERVERONLY);
-    /// <summary>
-    /// End Prospect: Added for SSL/TLS support ---
-    /// </summary>
-
-    /// <summary>
     ///     Max amount of concurrent Postgres database operations.
     /// </summary>
     public static readonly CVarDef<int> DatabasePgConcurrency =
@@ -91,4 +74,16 @@ public sealed partial class CCVars
     /// </summary>
     public static readonly CVarDef<bool> DatabaseSynchronous =
         CVarDef.Create("database.sync", false, CVar.SERVERONLY);
+
+    /// <summary>
+    /// Prospect: Added for SSL/TLS support ---
+    /// </summary>
+    public static readonly CVarDef<string> DatabasePgSslMode =
+        CVarDef.Create("database.pg_sslmode", "Require", CVar.SERVERONLY);
+
+    public static readonly CVarDef<bool> DatabasePgTrustServerCertificate =
+        CVarDef.Create("database.pg_trust_server_certificate", false, CVar.SERVERONLY);
+    /// <summary>
+    /// End Prospect: Added for SSL/TLS support ---
+    /// </summary>
 }
