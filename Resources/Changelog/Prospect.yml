@@ -42,3 +42,10 @@ Entries:
   id: 6
   time: '2025-08-12T19:11:07.0000000+00:00'
   url: https://github.com/Prospect-Sector/prospect-sector/pull/12
+- author: GreaseMonk
+  changes:
+    - type: Add
+      message: Whitelist is now applied to cargo storage
+  id: 7
+  time: '2025-08-12T20:23:45.0000000+00:00'
+  url: https://github.com/Prospect-Sector/prospect-sector/pull/27
