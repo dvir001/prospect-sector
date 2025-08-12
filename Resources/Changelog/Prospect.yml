@@ -33,3 +33,12 @@ Entries:
   id: 5
   time: '2025-08-08T13:32:29.0000000+00:00'
   url: https://github.com/Prospect-Sector/prospect-sector/pull/23
+- author: GreaseMonk
+  changes:
+    - type: Add
+      message: Added low pop rudimentary station
+    - type: Add
+      message: Added Terradrops, a new technology that beams down to the planet below.
+  id: 6
+  time: '2025-08-12T19:11:07.0000000+00:00'
+  url: https://github.com/Prospect-Sector/prospect-sector/pull/12
