@@ -48,8 +48,6 @@ public sealed class ProspectableSystem: SharedProspectableSystem
     /// <param name="mapLevel">The map level to be assigned to the component.</param>
     private void AssignComp(EntityUid entityUid, int mapLevel)
     {
-        // This method should assign the ProspectableComponent to the entity.
-        // For now, we will just log the assignment.
         var comp = EnsureComp<ProspectableComponent>(entityUid);
         comp.Level = mapLevel;
     }

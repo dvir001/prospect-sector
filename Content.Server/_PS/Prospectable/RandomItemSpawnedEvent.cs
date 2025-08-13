@@ -1,7 +1,12 @@
 ﻿namespace Content.Server._PS.Prospectable;
 
 [ByRefEvent]
-public record struct RandomItemSpawnedEvent(EntityUid entity)
+public record struct RandomItemSpawnedEvent
 {
-    public EntityUid EntityUid = entity;
+    public EntityUid EntityUid;
+
+    public RandomItemSpawnedEvent(EntityUid entity)
+    {
+        EntityUid = entity;
+    }
 }
