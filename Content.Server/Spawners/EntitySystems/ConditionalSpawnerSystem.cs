@@ -1,8 +1,8 @@
 using System.Numerics;
-using Content.Server._PS.Prospectable;
+using Content.Server._PS.Prospectable;  // Prospect
 using Content.Server.GameTicking;
 using Content.Server.Spawners.Components;
-using Content.Shared._PS.Prospectable;
+using Content.Shared._PS.Prospectable; // Prospect
 using Content.Shared.EntityTable;
 using Content.Shared.GameTicking.Components;
 using JetBrains.Annotations;
