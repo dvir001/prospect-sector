@@ -89,6 +89,15 @@ public sealed partial class CCVars
 
     public static readonly CVarDef<bool> DatabasePgCheckCertificateRevocation =
         CVarDef.Create("database.pg_check_certificate_revocation", false, CVar.SERVERONLY);
+
+    public static readonly CVarDef<int> DatabasePgConnectionTimeout =
+        CVarDef.Create("database.pg_connection_timeout", 30, CVar.SERVERONLY); // Connection timeout in seconds
+
+    public static readonly CVarDef<int> DatabasePgCommandTimeout =
+        CVarDef.Create("database.pg_command_timeout", 30, CVar.SERVERONLY); // Command timeout in seconds
+
+    public static readonly CVarDef<int> DatabasePgKeepAlive =
+        CVarDef.Create("database.pg_keep_alive", 30, CVar.SERVERONLY); // Keep alive interval in seconds
     /// <summary>
     /// End Prospect: Added for SSL/TLS support ---
     /// </summary>

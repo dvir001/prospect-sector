@@ -1149,6 +1149,9 @@ namespace Content.Server.Database
             var trustServerCert = _cfg.GetCVar(CCVars.DatabasePgTrustServerCertificate); // Prospect
             var serverCompatibilityMode = _cfg.GetCVar(CCVars.DatabasePgServerCompatibilityMode); // Prospect
             var checkCertRevocation = _cfg.GetCVar(CCVars.DatabasePgCheckCertificateRevocation); // Prospect
+            var connectionTimeout = _cfg.GetCVar(CCVars.DatabasePgConnectionTimeout); // Prospect
+            var commandTimeout = _cfg.GetCVar(CCVars.DatabasePgCommandTimeout); // Prospect
+            var keepAlive = _cfg.GetCVar(CCVars.DatabasePgKeepAlive); // Prospect
 
             var builder = new DbContextOptionsBuilder<PostgresServerDbContext>();
             var npgBuilder = new NpgsqlConnectionStringBuilder
@@ -1171,22 +1174,24 @@ namespace Content.Server.Database
             npgBuilder.CheckCertificateRevocation = checkCertRevocation;
 
             // Server compatibility mode (useful for managed PostgreSQL services)
-            if (Enum.TryParse<Npgsql.ServerCompatibilityMode>(serverCompatibilityMode, true, out var compatibilityMode))
+            if (!Enum.TryParse<Npgsql.ServerCompatibilityMode>(serverCompatibilityMode, true, out var compatibilityMode))
             {
-                npgBuilder.ServerCompatibilityMode = compatibilityMode;
+                _sawmill.Warning($"Invalid server compatibility mode '{serverCompatibilityMode}'. Valid values are: {string.Join(", ", Enum.GetNames(typeof(Npgsql.ServerCompatibilityMode)))}. Falling back to None.");
+                compatibilityMode = Npgsql.ServerCompatibilityMode.None;
             }
+            npgBuilder.ServerCompatibilityMode = compatibilityMode;
 
-            // Additional connection parameters that help with managed database services
-            npgBuilder.Timeout = 30; // 30 second connection timeout
-            npgBuilder.CommandTimeout = 30; // 30 second command timeout
-            npgBuilder.KeepAlive = 30; // Keep connection alive
+            // Configurable connection parameters
+            npgBuilder.Timeout = connectionTimeout;
+            npgBuilder.CommandTimeout = commandTimeout;
+            npgBuilder.KeepAlive = keepAlive;
 
             var connectionString = npgBuilder.ConnectionString;
 
             _sawmill.Debug($"Using Postgres \"{host}:{port}/{db}\" SSLMode={npgBuilder.SslMode} TrustServerCertificate={trustServerCert} ServerCompatibilityMode={npgBuilder.ServerCompatibilityMode}");
             
-            // Log additional debug info for private network connections
-            if (host.Contains("private") || host.Contains("10.") || host.Contains("192.168.") || host.Contains("172."))
+            // Proper private network detection using IP address parsing
+            if (IsPrivateNetworkHost(host))
             {
                 _sawmill.Info($"Detected private network connection to {host}. Using SSL settings optimized for managed database services.");
             }
@@ -1195,6 +1200,79 @@ namespace Content.Server.Database
             builder.UseNpgsql(connectionString);
             SetupLogging(builder);
             return (builder.Options, connectionString);
+        }
+
+        /// <summary>
+        /// Prospect: Determines if a host is on a private network using proper IP address parsing and CIDR range checking.
+        /// </summary>
+        /// <param name="host">The hostname or IP address to check</param>
+        /// <returns>True if the host is determined to be on a private network</returns>
+        private bool IsPrivateNetworkHost(string host)
+        {
+            // Check for obvious private network indicators in hostname
+            if (host.Contains("private") || host.Contains("internal") || host.Contains("local"))
+            {
+                return true;
+            }
+
+            // Try to parse as IP address
+            if (!IPAddress.TryParse(host, out var ipAddress))
+            {
+                // If it's not an IP address, try to resolve it
+                try
+                {
+                    var hostEntry = System.Net.Dns.GetHostEntry(host);
+                    ipAddress = hostEntry.AddressList.FirstOrDefault(addr => addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+                }
+                catch
+                {
+                    // If DNS resolution fails, we can't determine if it's private
+                    return false;
+                }
+            }
+
+            if (ipAddress == null)
+                return false;
+
+            // Check if IP is in private CIDR ranges
+            return IsPrivateIPAddress(ipAddress);
+        }
+
+        /// <summary>
+        /// Prospect: Checks if an IP address is in a private network range according to RFC 1918 and other private ranges.
+        /// </summary>
+        /// <param name="ipAddress">The IP address to check</param>
+        /// <returns>True if the IP address is in a private range</returns>
+        private static bool IsPrivateIPAddress(IPAddress ipAddress)
+        {
+            if (ipAddress.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork)
+                return false;
+
+            var bytes = ipAddress.GetAddressBytes();
+            
+            // RFC 1918 private ranges:
+            // 10.0.0.0/8 (10.0.0.0 to 10.255.255.255)
+            if (bytes[0] == 10)
+                return true;
+            
+            // 172.16.0.0/12 (172.16.0.0 to 172.31.255.255)
+            if (bytes[0] == 172 && bytes[1] >= 16 && bytes[1] <= 31)
+                return true;
+            
+            // 192.168.0.0/16 (192.168.0.0 to 192.168.255.255)
+            if (bytes[0] == 192 && bytes[1] == 168)
+                return true;
+            
+            // Additional private/special ranges:
+            // 127.0.0.0/8 (loopback)
+            if (bytes[0] == 127)
+                return true;
+            
+            // 169.254.0.0/16 (link-local)
+            if (bytes[0] == 169 && bytes[1] == 254)
+                return true;
+
+            return false;
         }
 
         private void SetupSqlite(out Func<DbContextOptions<SqliteServerDbContext>> contextFunc, out bool inMemory)
