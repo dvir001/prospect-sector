@@ -1160,7 +1160,10 @@ namespace Content.Server.Database
 
             // Prospect: SSL mode and trust server certificate.
             if (!Enum.TryParse<Npgsql.SslMode>(sslModeString, true, out var sslModeParsed))
+            {
+                _sawmill.Warning($"Invalid SSL mode '{sslModeString}'. Valid values are: {string.Join(", ", Enum.GetNames(typeof(Npgsql.SslMode)))}. Falling back to Disable.");
                 sslModeParsed = Npgsql.SslMode.Disable;
+            }
             npgBuilder.SslMode = sslModeParsed;
             npgBuilder.TrustServerCertificate = trustServerCert;
 
