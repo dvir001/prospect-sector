@@ -1194,6 +1194,17 @@ namespace Content.Server.Database
             if (IsPrivateNetworkHost(host))
             {
                 _sawmill.Info($"Detected private network connection to {host}. Using SSL settings optimized for managed database services.");
+                // Automatically adjust SSL settings for private networks unless explicitly set
+                if (npgBuilder.SslMode != Npgsql.SslMode.Disable && npgBuilder.SslMode != Npgsql.SslMode.Prefer)
+                {
+                    npgBuilder.SslMode = Npgsql.SslMode.Prefer;
+                    _sawmill.Info("SSL mode set to Prefer for private network.");
+                }
+                if (!npgBuilder.TrustServerCertificate)
+                {
+                    npgBuilder.TrustServerCertificate = true;
+                    _sawmill.Info("TrustServerCertificate enabled for private network.");
+                }
             }
             // End Prospect: SSL mode and trust server certificate.
 
