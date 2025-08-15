@@ -1220,7 +1220,6 @@ namespace Content.Server.Database
         /// <returns>True if the host is determined to be on a private network</returns>
         private bool IsPrivateNetworkHost(string host)
         {
-            // Check for obvious private network indicators in hostname
             // Check for private network domain suffixes in hostname
             if (host.EndsWith(".private", StringComparison.OrdinalIgnoreCase) ||
                 host.EndsWith(".internal", StringComparison.OrdinalIgnoreCase) ||
@@ -1235,22 +1234,14 @@ namespace Content.Server.Database
                 // If it's not an IP address, try to resolve it
                 try
                 {
-            IPAddress? ipAddress = null;
-            if (!IPAddress.TryParse(host, out ipAddress))
-            {
-                // If it's not an IP address, try to resolve it asynchronously
-                try
-                {
-                    var hostEntry = await System.Net.Dns.GetHostEntryAsync(host);
+                    var hostEntry = System.Net.Dns.GetHostEntry(host);
                     ipAddress = hostEntry.AddressList.FirstOrDefault(addr => addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
                 }
-                catch
-                {
                 catch (Exception ex)
                 {
                     // If DNS resolution fails, we can't determine if it's private
                     // Log the exception for debugging purposes
-                    _logger?.LogWarning(ex, "Failed to resolve host '{Host}' in IsPrivateNetworkHost.", host);
+                    _sawmill.Warning($"Failed to resolve host '{host}' in IsPrivateNetworkHost: {ex.Message}");
                     return false;
                 }
             }
