@@ -1,6 +1,8 @@
 using System.Numerics;
+using Content.Server._PS.Prospectable;  // Prospect
 using Content.Server.GameTicking;
 using Content.Server.Spawners.Components;
+using Content.Shared._PS.Prospectable; // Prospect
 using Content.Shared.EntityTable;
 using Content.Shared.GameTicking.Components;
 using JetBrains.Annotations;
@@ -88,8 +90,14 @@ namespace Content.Server.Spawners.EntitySystems
                 return;
             }
 
+            // Prospect: Jack spawns to events to add comps
             if (!Deleted(uid))
-                Spawn(_robustRandom.Pick(component.Prototypes), Transform(uid).Coordinates);
+            {
+                var entity = Spawn(_robustRandom.Pick(component.Prototypes), Transform(uid).Coordinates);
+                var randomItemSpawnedEvent = new RandomItemSpawnedEvent(entity);
+                RaiseLocalEvent(ref randomItemSpawnedEvent);
+            }
+            // End Prospect
         }
 
         private void Spawn(EntityUid uid, RandomSpawnerComponent component)
@@ -118,7 +126,11 @@ namespace Content.Server.Spawners.EntitySystems
 
             var coordinates = Transform(uid).Coordinates.Offset(new Vector2(xOffset, yOffset));
 
-            Spawn(_robustRandom.Pick(component.Prototypes), coordinates);
+            // Prospect: Jack spawns to events to add comps
+            var entity = Spawn(_robustRandom.Pick(component.Prototypes), coordinates);
+            var randomItemSpawnedEvent = new RandomItemSpawnedEvent(entity);
+            RaiseLocalEvent(ref randomItemSpawnedEvent);
+            // End Prospect
         }
 
         private void Spawn(Entity<EntityTableSpawnerComponent> ent)
@@ -135,7 +147,11 @@ namespace Content.Server.Spawners.EntitySystems
                 var yOffset = _robustRandom.NextFloat(-ent.Comp.Offset, ent.Comp.Offset);
                 var trueCoords = coords.Offset(new Vector2(xOffset, yOffset));
 
-                SpawnAtPosition(proto, trueCoords);
+                // Prospect: Jack spawns to events to add comps
+                var entity = SpawnAtPosition(proto, trueCoords);
+                var randomItemSpawnedEvent = new RandomItemSpawnedEvent(entity);
+                RaiseLocalEvent(ref randomItemSpawnedEvent);
+                // End Prospect
             }
         }
     }
