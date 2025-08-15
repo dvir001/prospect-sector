@@ -90,14 +90,14 @@ namespace Content.Server.Spawners.EntitySystems
                 return;
             }
 
-            // START Prospect changes
+            // Prospect: Jack spawns to events to add comps
             if (!Deleted(uid))
             {
                 var entity = Spawn(_robustRandom.Pick(component.Prototypes), Transform(uid).Coordinates);
                 var randomItemSpawnedEvent = new RandomItemSpawnedEvent(entity);
                 RaiseLocalEvent(ref randomItemSpawnedEvent);
             }
-            // END Prospect changes
+            // End Prospect
         }
 
         private void Spawn(EntityUid uid, RandomSpawnerComponent component)
@@ -126,11 +126,11 @@ namespace Content.Server.Spawners.EntitySystems
 
             var coordinates = Transform(uid).Coordinates.Offset(new Vector2(xOffset, yOffset));
 
-            // START Prospect changes
+            // Prospect: Jack spawns to events to add comps
             var entity = Spawn(_robustRandom.Pick(component.Prototypes), coordinates);
             var randomItemSpawnedEvent = new RandomItemSpawnedEvent(entity);
             RaiseLocalEvent(ref randomItemSpawnedEvent);
-            // END Prospect changes
+            // End Prospect
         }
 
         private void Spawn(Entity<EntityTableSpawnerComponent> ent)
@@ -147,11 +147,11 @@ namespace Content.Server.Spawners.EntitySystems
                 var yOffset = _robustRandom.NextFloat(-ent.Comp.Offset, ent.Comp.Offset);
                 var trueCoords = coords.Offset(new Vector2(xOffset, yOffset));
 
-                // START Prospect changes
+                // Prospect: Jack spawns to events to add comps
                 var entity = SpawnAtPosition(proto, trueCoords);
                 var randomItemSpawnedEvent = new RandomItemSpawnedEvent(entity);
                 RaiseLocalEvent(ref randomItemSpawnedEvent);
-                // END Prospect changes
+                // End Prospect
             }
         }
     }
