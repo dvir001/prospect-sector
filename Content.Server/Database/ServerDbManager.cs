@@ -1210,7 +1210,10 @@ namespace Content.Server.Database
         private bool IsPrivateNetworkHost(string host)
         {
             // Check for obvious private network indicators in hostname
-            if (host.Contains("private") || host.Contains("internal") || host.Contains("local"))
+            // Check for private network domain suffixes in hostname
+            if (host.EndsWith(".private", StringComparison.OrdinalIgnoreCase) ||
+                host.EndsWith(".internal", StringComparison.OrdinalIgnoreCase) ||
+                host.EndsWith(".local", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
