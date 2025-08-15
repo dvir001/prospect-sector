@@ -1235,7 +1235,11 @@ namespace Content.Server.Database
                 }
                 catch
                 {
+                catch (Exception ex)
+                {
                     // If DNS resolution fails, we can't determine if it's private
+                    // Log the exception for debugging purposes
+                    _logger?.LogWarning(ex, "Failed to resolve host '{Host}' in IsPrivateNetworkHost.", host);
                     return false;
                 }
             }
