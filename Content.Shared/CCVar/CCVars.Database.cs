@@ -83,6 +83,12 @@ public sealed partial class CCVars
 
     public static readonly CVarDef<bool> DatabasePgTrustServerCertificate =
         CVarDef.Create("database.pg_trust_server_certificate", true, CVar.SERVERONLY);
+
+    public static readonly CVarDef<string> DatabasePgServerCompatibilityMode =
+        CVarDef.Create("database.pg_server_compatibility_mode", "None", CVar.SERVERONLY); // compatibility modes: None, Redshift
+
+    public static readonly CVarDef<bool> DatabasePgCheckCertificateRevocation =
+        CVarDef.Create("database.pg_check_certificate_revocation", false, CVar.SERVERONLY);
     /// <summary>
     /// End Prospect: Added for SSL/TLS support ---
     /// </summary>

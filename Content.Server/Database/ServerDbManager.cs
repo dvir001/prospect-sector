@@ -1147,6 +1147,8 @@ namespace Content.Server.Database
 
             var sslModeString = _cfg.GetCVar(CCVars.DatabasePgSslMode); // Prospect
             var trustServerCert = _cfg.GetCVar(CCVars.DatabasePgTrustServerCertificate); // Prospect
+            var serverCompatibilityMode = _cfg.GetCVar(CCVars.DatabasePgServerCompatibilityMode); // Prospect
+            var checkCertRevocation = _cfg.GetCVar(CCVars.DatabasePgCheckCertificateRevocation); // Prospect
 
             var builder = new DbContextOptionsBuilder<PostgresServerDbContext>();
             var npgBuilder = new NpgsqlConnectionStringBuilder
@@ -1166,10 +1168,28 @@ namespace Content.Server.Database
             }
             npgBuilder.SslMode = sslModeParsed;
             npgBuilder.TrustServerCertificate = trustServerCert;
+            npgBuilder.CheckCertificateRevocation = checkCertRevocation;
+
+            // Server compatibility mode (useful for managed PostgreSQL services)
+            if (Enum.TryParse<Npgsql.ServerCompatibilityMode>(serverCompatibilityMode, true, out var compatibilityMode))
+            {
+                npgBuilder.ServerCompatibilityMode = compatibilityMode;
+            }
+
+            // Additional connection parameters that help with managed database services
+            npgBuilder.Timeout = 30; // 30 second connection timeout
+            npgBuilder.CommandTimeout = 30; // 30 second command timeout
+            npgBuilder.KeepAlive = 30; // Keep connection alive
 
             var connectionString = npgBuilder.ConnectionString;
 
-            _sawmill.Debug($"Using Postgres \"{host}:{port}/{db}\" SSLMode={npgBuilder.SslMode} TrustServerCertificate={trustServerCert}");
+            _sawmill.Debug($"Using Postgres \"{host}:{port}/{db}\" SSLMode={npgBuilder.SslMode} TrustServerCertificate={trustServerCert} ServerCompatibilityMode={npgBuilder.ServerCompatibilityMode}");
+            
+            // Log additional debug info for private network connections
+            if (host.Contains("private") || host.Contains("10.") || host.Contains("192.168.") || host.Contains("172."))
+            {
+                _sawmill.Info($"Detected private network connection to {host}. Using SSL settings optimized for managed database services.");
+            }
             // End Prospect: SSL mode and trust server certificate.
 
             builder.UseNpgsql(connectionString);
