@@ -1221,7 +1221,13 @@ namespace Content.Server.Database
                 // If it's not an IP address, try to resolve it
                 try
                 {
-                    var hostEntry = System.Net.Dns.GetHostEntry(host);
+            IPAddress? ipAddress = null;
+            if (!IPAddress.TryParse(host, out ipAddress))
+            {
+                // If it's not an IP address, try to resolve it asynchronously
+                try
+                {
+                    var hostEntry = await System.Net.Dns.GetHostEntryAsync(host);
                     ipAddress = hostEntry.AddressList.FirstOrDefault(addr => addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
                 }
                 catch
