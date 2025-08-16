@@ -5,6 +5,9 @@
     - BaseStationNews
     - BaseStationCargo
     - BaseStationJobsSpawning
+    - BaseStationAlertLevels
+    - BaseStationMagnet
+    - BaseStationRecords
   categories: [ HideSpawnMenu ]
   components:
     - type: CargoStorageData
