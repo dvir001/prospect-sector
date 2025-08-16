@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Server._PS.CargoStorage.Components;
 using Content.Server.Cargo.Components;
 using Content.Shared.Cargo;
 using Content.Shared.Cargo.BUI;
@@ -26,6 +27,7 @@ public sealed partial class CargoSystem
 
         SubscribeLocalEvent<CargoPalletConsoleComponent, CargoPalletSellMessage>(OnPalletSale);
         SubscribeLocalEvent<CargoPalletConsoleComponent, CargoPalletAppraiseMessage>(OnPalletAppraise);
+        SubscribeLocalEvent<CargoPalletConsoleComponent, CargoPalletStoreMessage>(OnPalletStore); // Prospect
         SubscribeLocalEvent<CargoPalletConsoleComponent, BoundUIOpenedEvent>(OnPalletUIOpen);
 
         _cfg.OnValueChanged(CCVars.LockboxCutEnabled, (enabled) => { _lockboxCutEnabled = enabled; }, true);
@@ -259,6 +261,64 @@ public sealed partial class CargoSystem
         UpdatePalletConsoleInterface(uid);
     }
 
+    // Prospect: Add store button to cargo pallet console
+    private void OnPalletStore(EntityUid uid, CargoPalletConsoleComponent component, CargoPalletStoreMessage args)
+    {
+        var xform = Transform(uid);
+
+        if (_station.GetOwningStation(uid) is not { } station)
+        {
+            return;
+        }
+
+        if (xform.GridUid is not { } gridUid)
+        {
+            _uiSystem.SetUiState(uid,
+                CargoPalletConsoleUiKey.Sale,
+                new CargoPalletConsoleInterfaceState(0, 0, false));
+            return;
+        }
+
+        if (!StorePallets(gridUid, station, out var goods))
+            return;
+
+        _audio.PlayPvs(ApproveSound, uid);
+        UpdatePalletConsoleInterface(uid);
+    }
+
+    // Prospect: Add store button to cargo pallet console
+    private bool StorePallets(EntityUid gridUid, EntityUid station, out HashSet<(EntityUid, OverrideSellComponent?, double)> goods)
+    {
+        GetPalletGoods(gridUid, out var toStore, out goods);
+
+        if (!TryComp<CargoStorageDataComponent>(station, out var dataComponent))
+            return false;
+        if (toStore.Count == 0)
+            return false;
+
+        var ev = new EntityStoredEvent(toStore, station);
+        RaiseLocalEvent(ref ev);
+
+        var itemsStored = 0;
+
+        foreach (var ent in toStore)
+        {
+            // Check whitelist/blacklist if we can store.
+            if (_whitelistSys.IsWhitelistFail(dataComponent.Whitelist, ent) ||
+                _whitelistSys.IsBlacklistPass(dataComponent.Blacklist, ent) &&
+                _whitelistSys.IsWhitelistFailOrNull(dataComponent.WhitelistOverride, ent))
+            {
+                continue;
+            }
+
+            itemsStored++;
+            Del(ent);
+        }
+
+        // Control when it plays sound
+        return itemsStored > 0;
+    }
+
     #endregion
 }
 
@@ -268,3 +328,7 @@ public sealed partial class CargoSystem
 /// </summary>
 [ByRefEvent]
 public readonly record struct EntitySoldEvent(HashSet<EntityUid> Sold, EntityUid Station);
+
+// Prospect: Add event that is raised when player wants items stored instead of sold.
+[ByRefEvent]
+public readonly record struct EntityStoredEvent(HashSet<EntityUid> Stored, EntityUid Station);
