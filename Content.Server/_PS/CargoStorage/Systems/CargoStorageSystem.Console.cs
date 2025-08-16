@@ -23,7 +23,7 @@ public sealed partial class CargoStorageSystem
 
     private void InitializeConsole()
     {
-        SubscribeLocalEvent<EntitySoldEvent>(OnEntitySoldEvent);
+        SubscribeLocalEvent<EntityStoredEvent>(OnEntityStoredEvent);
         SubscribeLocalEvent<CargoStorageConsoleComponent, BoundUIOpenedEvent>(OnConsoleUiOpened);
         SubscribeLocalEvent<CargoStorageConsoleComponent, CargoStorageCartMessage>(OnCartMessage);
         SubscribeLocalEvent<CargoStorageConsoleComponent, PowerChangedEvent>(OnPowerChanged);
@@ -39,17 +39,17 @@ public sealed partial class CargoStorageSystem
     /// <summary>
     /// This event signifies that something has been sold at a cargo pallet.
     /// </summary>
-    /// <param name="entitySoldEvent">The details of the event</param>
-    private void OnEntitySoldEvent(ref EntitySoldEvent entitySoldEvent)
+    /// <param name="entityStoredEvent">The details of the event</param>
+    private void OnEntityStoredEvent(ref EntityStoredEvent entityStoredEvent)
     {
-        var station = _station.GetOwningStation(entitySoldEvent.Station);
+        var station = _station.GetOwningStation(entityStoredEvent.Station);
         if (station is null ||
             !_entityManager.TryGetComponent<CargoStorageDataComponent>(station, out var dataComponent))
         {
             return;
         }
 
-        foreach (var sold in entitySoldEvent.Sold)
+        foreach (var sold in entityStoredEvent.Stored)
         {
             UpsertEntity(dataComponent, sold);
         }
