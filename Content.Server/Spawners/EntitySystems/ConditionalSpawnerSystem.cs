@@ -152,16 +152,17 @@ namespace Content.Server.Spawners.EntitySystems
                 return;
 
             var coords = Transform(ent).Coordinates;
+            var offset = ent.Comp.Offset;
 
             var spawns = _entityTable.GetSpawns(ent.Comp.Table);
             foreach (var proto in spawns)
             {
-                var xOffset = _robustRandom.NextFloat(-ent.Comp.Offset, ent.Comp.Offset);
-                var yOffset = _robustRandom.NextFloat(-ent.Comp.Offset, ent.Comp.Offset);
+                var xOffset = _robustRandom.NextFloat(-offset, offset);
+                var yOffset = _robustRandom.NextFloat(-offset, offset);
                 var trueCoords = coords.Offset(new Vector2(xOffset, yOffset));
 
                 // Prospect: Jack spawns to events to add comps
-                var entity = SpawnAtPosition(proto, trueCoords);
+                var entity = SpawnAttachedTo(proto, trueCoords);
                 var randomItemSpawnedEvent = new RandomItemSpawnedEvent(entity);
                 RaiseLocalEvent(ref randomItemSpawnedEvent);
                 // End Prospect
