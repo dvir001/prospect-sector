@@ -67,7 +67,7 @@ public sealed partial class TerradropSystem
 
     private void OnJobCompleted(GenerateTerradropJob job)
     {
-        var dataComponent = EntityManager.GetComponent<TerradropStationComponent>(job.Station);
+        var dataComponent = Comp<TerradropStationComponent>(job.Station);
 
         // Spawn the room marker to make a new room where the portal will be.
         Spawn("TerradropRoomMarker", new MapCoordinates(4f, 0f, job.MapId));

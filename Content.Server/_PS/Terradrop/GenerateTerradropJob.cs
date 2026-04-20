@@ -144,7 +144,7 @@ public sealed class GenerateTerradropJob : Job<bool>
             // If the proto cannot be found use RoomTemp as a fallback.
             var temperature = _prototypeManager.TryIndex(MapPrototype.Temperature, out var tempProto)
                 ? tempProto
-                : _prototypeManager.Index<SalvageTemperatureMod>("RoomTemp");
+                : _prototypeManager.Index(new ProtoId<SalvageTemperatureMod>("RoomTemp"));
             _entManager.System<AtmosphereSystem>().SetMapSpace(MapUid, atmosphere.Space, atmos);
             _entManager.System<AtmosphereSystem>()
                 .SetMapGasMixture(MapUid, new GasMixture(moles, temperature.Temperature), atmos);
@@ -335,7 +335,7 @@ public sealed class GenerateTerradropJob : Job<bool>
 
         // Spawn PS equipment loot with level-scaled stats
         var psLootBudget = difficultyProto.LootBudget;
-        if (_prototypeManager.TryIndex<SalvageLootPrototype>("PSSalvageLoot", out var psLoot))
+        if (_prototypeManager.TryIndex(new ProtoId<SalvageLootPrototype>("PSSalvageLoot"), out var psLoot))
         {
             foreach (var rule in psLoot.LootRules)
             {
