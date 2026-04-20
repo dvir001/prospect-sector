@@ -57,8 +57,7 @@ public sealed class ItemStatsInitSystem : EntitySystem
     /// </summary>
     private int GetTerradropLevel(EntityUid uid)
     {
-        if (!TryComp<TransformComponent>(uid, out var transform))
-            return 0;
+        var transform = Transform(uid);
 
         var mapUid = transform.MapUid;
         if (mapUid == null || !TryComp<TerradropMapComponent>(mapUid, out var terradropMap))

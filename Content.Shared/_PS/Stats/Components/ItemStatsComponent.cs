@@ -25,7 +25,7 @@ public sealed partial class ItemStatsComponent : Component
     /// </summary>
     [DataField]
     [AutoNetworkedField]
-    public bool Initialized { get; set; } = false;
+    public new bool Initialized { get; set; } = false;
 
     /// <summary>
     /// The terradrop level this item was spawned at.

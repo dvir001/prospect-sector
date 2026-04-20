@@ -6,7 +6,7 @@ namespace Content.Shared._PS.Stats.Prototypes;
 /// <summary>
 /// Defines item rarity tiers (T1-T5) with their properties.
 /// </summary>
-[Prototype("itemRarity")]
+[Prototype]
 public sealed partial class ItemRarityPrototype : IPrototype
 {
     [IdDataField]

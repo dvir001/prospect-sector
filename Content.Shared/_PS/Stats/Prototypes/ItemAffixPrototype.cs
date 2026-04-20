@@ -5,7 +5,7 @@ namespace Content.Shared._PS.Stats.Prototypes;
 /// <summary>
 /// Defines an item affix type that can appear on equipment.
 /// </summary>
-[Prototype("itemAffix")]
+[Prototype]
 public sealed partial class ItemAffixPrototype : IPrototype
 {
     [IdDataField]
