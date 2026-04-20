@@ -13,7 +13,7 @@ public sealed partial class TerradropMobComponent : Component
     /// Whether scaling has already been applied. Prevents re-scaling on save/load.
     /// </summary>
     [AutoNetworkedField]
-    public bool Initialized;
+    public new bool Initialized;
 
     /// <summary>
     /// The dungeon level this mob was spawned at.
