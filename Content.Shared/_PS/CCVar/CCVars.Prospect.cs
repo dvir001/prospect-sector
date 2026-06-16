@@ -17,6 +17,27 @@ public sealed partial class CCVars
         CVarDef.Create("prospect.arrivals", true, CVar.SERVERONLY);
 
     /// <summary>
+    /// Whether to use the Prospect parallel dungeon generation system.
+    /// When enabled, dungeon generation uses multi-threaded parallel processing for improved performance.
+    /// </summary>
+    public static readonly CVarDef<bool> ProspectParallelDungeons =
+        CVarDef.Create("prospect.parallel_dungeons", true, CVar.SERVERONLY);
+
+    /// <summary>
+    /// Maximum number of parallel workers for dungeon generation.
+    /// Set to 0 to use all available processors.
+    /// </summary>
+    public static readonly CVarDef<int> ProspectDungeonWorkers =
+        CVarDef.Create("prospect.dungeon_workers", 0, CVar.SERVERONLY);
+
+    /// <summary>
+    /// Number of test dungeons to generate on round start for benchmarking.
+    /// Set to 0 to disable.
+    /// </summary>
+    public static readonly CVarDef<int> ProspectDungeonBenchmark =
+        CVarDef.Create("prospect.dungeon_benchmark", 0, CVar.SERVERONLY);
+
+    /// <summary>
     /// Coefficient for item stat scaling power curve.
     /// Formula: bonusMultiplier = 1 + coefficient * level^exponent
     /// At 0.1 (default) with exponent 1.0: level 10 = 2x, level 50 = 6x, level 100 = 11x.

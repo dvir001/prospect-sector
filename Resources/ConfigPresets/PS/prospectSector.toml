@@ -6,6 +6,10 @@ desc             = "Official English Prospect Sector servers."
 lobbyenabled     = true
 soft_max_players = 80
 lobbyduration    = 300 # 5 minutes lobby timer
+defaultpreset    = "ProspectGamePreset"
+fallbackenabled  = false
+fallbackpreset   = "ProspectGamePreset"
+contraband_examine = false
 #panic_bunker.enabled = true
 #panic_bunker.min_overall_minutes = 120
 #panic_bunker.disable_with_admins = true
@@ -32,7 +36,8 @@ patreon    = "https://patreon.prospect-sector.space"
 #appeal     = "https://discord.prospect-sector.space"
 
 [server]
-rules_file = "MRPRuleset"
+rules_file = "PSMRPRuleset"
+default_guide = "PSNewPlayer"
 
 [movement]
 mob_pushing = false
@@ -41,7 +46,7 @@ mob_pushing = false
 max_connections = 1024
 
 [vote]
-restart_required_ratio = 0.7
+restart_required_ratio = 0.6
 
 [netres]
 limit = 10.0

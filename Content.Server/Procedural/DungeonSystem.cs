@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.Construction;
@@ -22,6 +24,7 @@ using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
+using Content.Server._PS.Procedural; // Prospect
 
 namespace Content.Server.Procedural;
 
@@ -40,6 +43,8 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
     [Dependency] private readonly MapLoaderSystem _loader = default!;
     [Dependency] private readonly SharedMapSystem _maps = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly IMapManager _mapManager = default!; // Prospect
+    [Dependency] private readonly ProspectDungeonSystem _prospectDungeon = default!; // Prospect
 
     private readonly List<(Vector2i, Tile)> _tiles = new();
 
@@ -95,6 +100,14 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
             QueueDel(uid);
         }
 
+        // Prospect: benchmark dungeon generation
+        var benchmarkCount = _configManager.GetCVar(CCVars.ProspectDungeonBenchmark);
+        if (benchmarkCount > 0)
+        {
+            RunBenchmark(benchmarkCount);
+        }
+        // Prospect: End
+
         if (!_configManager.GetCVar(CCVars.ProcgenPreload))
             return;
 
@@ -104,6 +117,50 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
             GetOrCreateTemplate(room);
         }
     }
+
+    // Prospect: benchmark dungeon generation
+    private static readonly ProtoId<DungeonConfigPrototype> BenchmarkConfig = "Experiment";
+
+    private async void RunBenchmark(int count)
+    {
+        Log.Info($"[Benchmark] Starting dungeon generation benchmark ({count} dungeons)...");
+
+        // Get a dungeon config to test with
+        if (!_prototype.TryIndex(BenchmarkConfig, out var config))
+        {
+            Log.Warning("[Benchmark] Could not find 'Experiment' dungeon config for benchmark");
+            return;
+        }
+
+        // Create a temporary map for benchmarking
+        _maps.CreateMap(out var mapId);
+        var gridEnt = _mapManager.CreateGridEntity(mapId);
+        var grid = Comp<MapGridComponent>(gridEnt);
+
+        var totalSw = Stopwatch.StartNew();
+
+        for (var i = 0; i < count; i++)
+        {
+            var seed = i + 1;
+            var position = new Vector2i(i * 100, 0); // Offset each dungeon
+
+            try
+            {
+                await GenerateDungeonAsync(config, gridEnt, grid, position, seed);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"[Benchmark] Dungeon {i + 1} failed: {ex.Message}");
+            }
+        }
+
+        totalSw.Stop();
+        Log.Info($"[Benchmark] Completed {count} dungeons in {totalSw.ElapsedMilliseconds}ms (avg: {totalSw.ElapsedMilliseconds / count}ms per dungeon)");
+
+        // Clean up the benchmark map
+        _maps.DeleteMap(mapId);
+    }
+    // Prospect: End
 
     public override void Shutdown()
     {
@@ -200,6 +257,14 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
         int seed,
         EntityCoordinates? coordinates = null)
     {
+        // Prospect: parallel dungeon generation
+        if (_prospectDungeon.Enabled)
+        {
+            _prospectDungeon.Generate(gen, gridUid, grid, position, seed, coordinates);
+            return;
+        }
+        // Prospect: End
+
         var cancelToken = new CancellationTokenSource();
         var job = new DungeonJob.DungeonJob(
             Log,
@@ -233,6 +298,17 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
         Vector2i position,
         int seed)
     {
+        // Prospect: parallel dungeon generation
+        if (_prospectDungeon.Enabled)
+        {
+            return await _prospectDungeon.GenerateAsync(gen, gridUid, grid, position, seed);
+        }
+        // Prospect: End
+
+        // Prospect: stats logging
+        var sw = Stopwatch.StartNew();
+        // Prospect: End
+
         var cancelToken = new CancellationTokenSource();
         var job = new DungeonJob.DungeonJob(
             Log,
@@ -264,7 +340,19 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
             throw job.Exception;
         }
 
-        return job.Result!;
+        // Prospect: stats logging
+        sw.Stop();
+        var dungeons = job.Result!;
+        var totalTiles = 0;
+        foreach (var dungeon in dungeons)
+            totalTiles += dungeon.AllTiles.Count;
+
+        var line = $"{DateTime.Now:O}|{sw.ElapsedMilliseconds}ms|dungeons:{dungeons.Count}|tiles:{totalTiles}|seed:{seed}|system:upstream";
+        File.AppendAllText("dungeon_stats.log", line + Environment.NewLine);
+        Log.Info($"[Upstream] Dungeon generated in {sw.ElapsedMilliseconds}ms ({dungeons.Count} dungeons, {totalTiles} tiles)");
+        // Prospect: End
+
+        return dungeons;
     }
 
     public Angle GetDungeonRotation(int seed)
