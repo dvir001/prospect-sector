@@ -12,10 +12,10 @@ namespace Content.Server._PS.Stats.Systems;
 /// Server-side system that initializes item stats on spawn.
 /// Rolls random values based on defined ranges when an item with ItemStatsComponent spawns.
 /// </summary>
-public sealed class ItemStatsInitSystem : EntitySystem
+public sealed partial class ItemStatsInitSystem : EntitySystem
 {
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private IConfigurationManager _cfg = default!;
 
     private float _itemCoefficient = 0.2f;
     private float _itemExponent = 1.5f;

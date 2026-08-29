@@ -4,7 +4,7 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared._PS.CargoStorage.Data;
 
-[Virtual, NetSerializable, Serializable]
+[NetSerializable, Serializable]
 public sealed class CargoStorageData
 {
     [ViewVariables]

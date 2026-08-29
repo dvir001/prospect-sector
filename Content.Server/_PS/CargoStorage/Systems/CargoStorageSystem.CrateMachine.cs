@@ -14,7 +14,7 @@ namespace Content.Server._PS.CargoStorage.Systems;
 
 public sealed partial class CargoStorageSystem
 {
-    [Dependency] private readonly CrateMachineSystem _crateMachine = default!;
+    [Dependency] private CrateMachineSystem _crateMachine = default!;
 
     private ISawmill _sawmill = default!;
 

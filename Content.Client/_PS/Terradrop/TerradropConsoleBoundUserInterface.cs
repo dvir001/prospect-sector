@@ -8,11 +8,11 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Client._PS.Terradrop;
 
-public sealed class TerradropConsoleBoundUserInterface : BoundUserInterface
+public sealed partial class TerradropConsoleBoundUserInterface : BoundUserInterface
 {
     private TerradropConsoleMenu? _consoleMenu;
 
-    [Dependency] private readonly ILogManager _logManager = default!;
+    [Dependency] private ILogManager _logManager = default!;
     private ISawmill _sawmill = default!;
 
     public TerradropConsoleBoundUserInterface(EntityUid owner, Enum uiKey)

@@ -19,8 +19,8 @@ namespace Content.Server._PS.CargoStorage.Systems;
 
 public sealed partial class CargoStorageSystem
 {
-    [Dependency] private readonly IComponentFactory _componentFactory = default!;
-    [Dependency] private readonly SharedMaterialStorageSystem _sharedMaterialStorageSystem = default!;
+    [Dependency] private IComponentFactory _componentFactory = default!;
+    [Dependency] private SharedMaterialStorageSystem _sharedMaterialStorageSystem = default!;
 
     private void InitializeConsole()
     {

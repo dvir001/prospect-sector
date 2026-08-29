@@ -1,7 +1,7 @@
 using Content.Shared.Salvage.Expeditions;
 using Robust.Shared.GameStates;
 using Robust.Shared.Map;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.List;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared._PS.Terradrop;
 
@@ -28,8 +28,8 @@ public sealed partial class TerradropStationComponent : Component
     /// The ids of all the maps which have been unlocked.
     /// </summary>
     [AutoNetworkedField]
-    [DataField("unlockedMapNodes", customTypeSerializer: typeof(PrototypeIdListSerializer<TerradropMapPrototype>))]
-    public List<string> UnlockedMapNodes = new();
+    [DataField("unlockedMapNodes")]
+    public List<ProtoId<TerradropMapPrototype>> UnlockedMapNodes = new();
 
     [NonSerialized]
     public EntityUid? ReturnMarker = null;

@@ -567,8 +567,6 @@ entities:
       pos: -7.5,2.5
       parent: 4
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 238
 - proto: APCBasic

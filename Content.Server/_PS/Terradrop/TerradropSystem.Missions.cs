@@ -8,6 +8,7 @@ using Content.Shared.Damage.Components;
 using Content.Shared.Destructible;
 using Content.Shared.FixedPoint;
 using Content.Shared.Ghost;
+using Content.Shared.Ghost.Components;
 using Content.Shared.Humanoid;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
@@ -24,7 +25,7 @@ namespace Content.Server._PS.Terradrop;
 /// </summary>
 public sealed partial class TerradropSystem
 {
-    [Dependency] private readonly IChatManager _chatManager = default!;
+    [Dependency] private IChatManager _chatManager = default!;
 
     private static readonly SoundPathSpecifier TeleportArrivalSound =
         new("/Audio/Effects/teleport_arrival.ogg");

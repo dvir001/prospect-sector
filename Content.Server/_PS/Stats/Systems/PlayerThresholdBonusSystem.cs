@@ -15,11 +15,11 @@ namespace Content.Server._PS.Stats.Systems;
 /// from all equipped items and applies them to the player's MobThresholdsComponent.
 /// Recalculates on equip/unequip.
 /// </summary>
-public sealed class PlayerThresholdBonusSystem : EntitySystem
+public sealed partial class PlayerThresholdBonusSystem : EntitySystem
 {
-    [Dependency] private readonly InventorySystem _inventory = default!;
-    [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
-    [Dependency] private readonly ItemStatsSystem _itemStats = default!;
+    [Dependency] private InventorySystem _inventory = default!;
+    [Dependency] private MobThresholdSystem _mobThreshold = default!;
+    [Dependency] private ItemStatsSystem _itemStats = default!;
 
     public override void Initialize()
     {
@@ -31,12 +31,12 @@ public sealed class PlayerThresholdBonusSystem : EntitySystem
 
     private void OnEquipped(EntityUid uid, ItemStatsComponent component, GotEquippedEvent args)
     {
-        RecalculateThresholds(args.Equipee);
+        RecalculateThresholds(args.EquipTarget);
     }
 
     private void OnUnequipped(EntityUid uid, ItemStatsComponent component, GotUnequippedEvent args)
     {
-        RecalculateThresholds(args.Equipee);
+        RecalculateThresholds(args.EquipTarget);
     }
 
     private void RecalculateThresholds(EntityUid wearer)

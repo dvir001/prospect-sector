@@ -22,13 +22,13 @@ namespace Content.Shared._PS.Stats.Systems;
 /// Handles item stats display in examine tooltip and stat effect calculations.
 /// Intercepts damage events to apply stat-based bonuses.
 /// </summary>
-public sealed class ItemStatsSystem : EntitySystem
+public sealed partial class ItemStatsSystem : EntitySystem
 {
-    [Dependency] private readonly IPrototypeManager _proto = default!;
-    [Dependency] private readonly ExamineSystemShared _examine = default!;
-    [Dependency] private readonly InventorySystem _inventory = default!;
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private IPrototypeManager _proto = default!;
+    [Dependency] private ExamineSystemShared _examine = default!;
+    [Dependency] private InventorySystem _inventory = default!;
+    [Dependency] private IConfigurationManager _cfg = default!;
+    [Dependency] private IRobustRandom _random = default!;
 
     /// <summary>
     /// Damage bonus per point of Strength for melee attacks (2% per point).

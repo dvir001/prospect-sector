@@ -3,9 +3,9 @@ using Content.Shared._PS.Terradrop;
 
 namespace Content.Server._PS.Prospectable;
 
-public sealed class ProspectableSystem: SharedProspectableSystem
+public sealed partial class ProspectableSystem: SharedProspectableSystem
 {
-    [Dependency] private readonly SharedMapSystem _map = default!;
+    [Dependency] private SharedMapSystem _map = default!;
 
     public override void Initialize()
     {
@@ -30,8 +30,8 @@ public sealed class ProspectableSystem: SharedProspectableSystem
     /// <param name="mapLevel">The map level to be set.</param>
     private void GetMapLevel(EntityUid entityUid, out int mapLevel)
     {
-        var mapUid = _map.GetMap(Transform(entityUid).MapID);
-        if (TryComp<TerradropMapComponent>(mapUid, out var comp))
+        if (_map.TryGetMap(Transform(entityUid).MapID, out var mapUid)
+            && TryComp<TerradropMapComponent>(mapUid, out var comp))
             mapLevel = comp.ThreatLevel;
         else
             mapLevel = MinItemLevel;

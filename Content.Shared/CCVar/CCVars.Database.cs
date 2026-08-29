@@ -76,6 +76,14 @@ public sealed partial class CCVars
         CVarDef.Create("database.sync", false, CVar.SERVERONLY);
 
     /// <summary>
+    ///     Creates the SQLite database using EnsureCreated instead of Migrate, if using SQLite.
+    ///     Setting this to true means you cannot apply migrations later.
+    ///     Meant to be used in integration tests only.
+    /// </summary>
+    public static readonly CVarDef<bool> DatabaseSnapshot =
+        CVarDef.Create("database.snapshot", false, CVar.SERVERONLY);
+
+    /// <summary>
     /// Prospect: Added for SSL/TLS support ---
     /// </summary>
     public static readonly CVarDef<string> DatabasePgSslMode =

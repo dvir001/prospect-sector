@@ -7,9 +7,9 @@ using Robust.Shared.Console;
 namespace Content.Server._PS.Terradrop;
 
 [AdminCommand(AdminFlags.Admin)]
-public sealed class TerminateTerradropCommand : LocalizedCommands
+public sealed partial class TerminateTerradropCommand : LocalizedCommands
 {
-    [Dependency] private readonly IEntityManager _entityManager = default!;
+    [Dependency] private IEntityManager _entityManager = default!;
 
     public override string Command => "terradrop_terminate_all";
     public override string Description => "Terminates all terradrop missions currently in progress.";

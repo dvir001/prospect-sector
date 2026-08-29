@@ -12,14 +12,14 @@ using Robust.Shared.Prototypes;
 
 public sealed partial class CargoStorageSystem: SharedCargoStorageSystem
 {
-    [Dependency] private readonly UserInterfaceSystem _ui = default!;
-    [Dependency] private readonly IEntityManager _entityManager = default!;
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
-    [Dependency] private readonly StackSystem _stackSystem = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly StationSystem _station = default!;
+    [Dependency] private UserInterfaceSystem _ui = default!;
+    [Dependency] private IEntityManager _entityManager = default!;
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private EntityWhitelistSystem _whitelistSystem = default!;
+    [Dependency] private StackSystem _stackSystem = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private StationSystem _station = default!;
 
     public override void Initialize()
     {

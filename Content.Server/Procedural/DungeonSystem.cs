@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Content.Server.Construction;
 using Robust.Shared.CPUJob.JobQueues.Queues;
 using Content.Server.Decals;
 using Content.Server.GameTicking.Events;
@@ -12,9 +11,6 @@ using Content.Shared.GameTicking;
 using Content.Shared.Maps;
 using Content.Shared.Physics;
 using Content.Shared.Procedural;
-using Content.Shared.Tag;
-using Robust.Server.GameObjects;
-using Robust.Shared.Collections;
 using Robust.Shared.Configuration;
 using Robust.Shared.Console;
 using Robust.Shared.EntitySerialization;
@@ -30,21 +26,19 @@ namespace Content.Server.Procedural;
 
 public sealed partial class DungeonSystem : SharedDungeonSystem
 {
-    [Dependency] private readonly IConfigurationManager _configManager = default!;
-    [Dependency] private readonly IConsoleHost _console = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly ITileDefinitionManager _tileDefManager = default!;
-    [Dependency] private readonly AnchorableSystem _anchorable = default!;
-    [Dependency] private readonly DecalSystem _decals = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly TileSystem _tile = default!;
-    [Dependency] private readonly TurfSystem _turf = default!;
-    [Dependency] private readonly MapLoaderSystem _loader = default!;
-    [Dependency] private readonly SharedMapSystem _maps = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!; // Prospect
-    [Dependency] private readonly ProspectDungeonSystem _prospectDungeon = default!; // Prospect
+    [Dependency] private IConfigurationManager _configManager = default!;
+    [Dependency] private IConsoleHost _console = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private ITileDefinitionManager _tileDefManager = default!;
+    [Dependency] private AnchorableSystem _anchorable = default!;
+    [Dependency] private DecalSystem _decals = default!;
+    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private TileSystem _tile = default!;
+    [Dependency] private TurfSystem _turf = default!;
+    [Dependency] private MapLoaderSystem _loader = default!;
+    [Dependency] private SharedMapSystem _maps = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private ProspectDungeonSystem _prospectDungeon = default!; // Prospect
 
     private readonly List<(Vector2i, Tile)> _tiles = new();
 
@@ -112,7 +106,7 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
             return;
 
         // Force all templates to be setup.
-        foreach (var room in _prototype.EnumeratePrototypes<DungeonRoomPrototype>())
+        foreach (var room in ProtoMan.EnumeratePrototypes<DungeonRoomPrototype>())
         {
             GetOrCreateTemplate(room);
         }
@@ -126,7 +120,7 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
         Log.Info($"[Benchmark] Starting dungeon generation benchmark ({count} dungeons)...");
 
         // Get a dungeon config to test with
-        if (!_prototype.TryIndex(BenchmarkConfig, out var config))
+        if (!ProtoMan.TryIndex(BenchmarkConfig, out var config))
         {
             Log.Warning("[Benchmark] Could not find 'Experiment' dungeon config for benchmark");
             return;
@@ -134,7 +128,7 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
 
         // Create a temporary map for benchmarking
         _maps.CreateMap(out var mapId);
-        var gridEnt = _mapManager.CreateGridEntity(mapId);
+        var gridEnt = _maps.CreateGridEntity(mapId);
         var grid = Comp<MapGridComponent>(gridEnt);
 
         var totalSw = Stopwatch.StartNew();
@@ -270,7 +264,7 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
             Log,
             DungeonJobTime,
             EntityManager,
-            _prototype,
+            ProtoMan,
             _tileDefManager,
             _anchorable,
             _decals,
@@ -314,7 +308,7 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
             Log,
             DungeonJobTime,
             EntityManager,
-            _prototype,
+            ProtoMan,
             _tileDefManager,
             _anchorable,
             _decals,
