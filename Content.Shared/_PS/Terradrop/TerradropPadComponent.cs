@@ -2,7 +2,6 @@ using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Shared._PS.Terradrop;
 
@@ -20,8 +19,8 @@ public sealed partial class TerradropPadComponent : Component
     [AutoNetworkedField]
     public EntityUid? Portal;
 
-    [DataField("PortalPrototype", customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
-    public string PortalPrototype = "PortalBlue";
+    [DataField("PortalPrototype")]
+    public EntProtoId PortalPrototype = "PortalBlue";
 
     /// <summary>
     /// The destination map ID for the terradrop pad.

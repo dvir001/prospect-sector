@@ -16,10 +16,10 @@ namespace Content.Server._PS.CrateMachine;
 /// </summary>
 public sealed partial class CrateMachineSystem : SharedCrateMachineSystem
 {
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly EntityStorageSystem _storage = default!;
-    [Dependency] private readonly TransformSystem _transform = default!;
-    [Dependency] private readonly SharedMapSystem _mapSystem = default!;
+    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private EntityStorageSystem _storage = default!;
+    [Dependency] private TransformSystem _transform = default!;
+    [Dependency] private SharedMapSystem _mapSystem = default!;
 
     /// <summary>
     /// Checks if there is a crate on the crate machine.

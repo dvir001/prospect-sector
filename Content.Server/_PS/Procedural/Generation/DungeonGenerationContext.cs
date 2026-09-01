@@ -10,6 +10,7 @@ using Content.Shared.EntityTable;
 using Content.Shared.Maps;
 using Content.Shared.Procedural;
 using Content.Shared.Tag;
+using Content.Shared.Wall;
 using Microsoft.Extensions.ObjectPool;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
@@ -43,8 +44,7 @@ public sealed class DungeonGenerationContext : IDisposable
     // Entity queries for physics checks
     public EntityQuery<PhysicsComponent> PhysicsQuery { get; }
     public EntityQuery<DoorComponent> DoorQuery { get; }
-
-    private static readonly ProtoId<TagPrototype> WallTag = "Wall";
+    public EntityQuery<WallComponent> WallQuery { get; }
 
     public EntityUid GridUid { get; }
     public MapGridComponent Grid { get; }
@@ -137,6 +137,7 @@ public sealed class DungeonGenerationContext : IDisposable
         // Initialize entity queries
         PhysicsQuery = entityManager.GetEntityQuery<PhysicsComponent>();
         DoorQuery = entityManager.GetEntityQuery<DoorComponent>();
+        WallQuery = entityManager.GetEntityQuery<WallComponent>();
 
         // Create thread-local randoms seeded deterministically
         _threadRandom = new ThreadLocal<Random>(() =>
@@ -231,7 +232,7 @@ public sealed class DungeonGenerationContext : IDisposable
 
         while (anchored.MoveNext(out var uid))
         {
-            if (Tags.HasTag(uid.Value, WallTag))
+            if (WallQuery.HasComponent(uid.Value))
                 return true;
         }
 

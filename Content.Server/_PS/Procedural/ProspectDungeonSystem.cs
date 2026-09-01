@@ -26,20 +26,20 @@ namespace Content.Server._PS.Procedural;
 /// Prospect's parallel dungeon generation system.
 /// Provides high-performance dungeon generation using parallel processing.
 /// </summary>
-public sealed class ProspectDungeonSystem : EntitySystem
+public sealed partial class ProspectDungeonSystem : EntitySystem
 {
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly IParallelManager _parallel = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly ITileDefinitionManager _tileDef = default!;
-    [Dependency] private readonly SharedMapSystem _maps = default!;
-    [Dependency] private readonly DecalSystem _decals = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly EntityTableSystem _entityTable = default!;
-    [Dependency] private readonly DungeonSystem _dungeon = default!;
-    [Dependency] private readonly AnchorableSystem _anchorable = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly TagSystem _tags = default!;
+    [Dependency] private IConfigurationManager _cfg = default!;
+    [Dependency] private IParallelManager _parallel = default!;
+    [Dependency] private IPrototypeManager _prototype = default!;
+    [Dependency] private ITileDefinitionManager _tileDef = default!;
+    [Dependency] private SharedMapSystem _maps = default!;
+    [Dependency] private DecalSystem _decals = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private EntityTableSystem _entityTable = default!;
+    [Dependency] private DungeonSystem _dungeon = default!;
+    [Dependency] private AnchorableSystem _anchorable = default!;
+    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private TagSystem _tags = default!;
 
     private bool _enabled;
     private int _workerCount;

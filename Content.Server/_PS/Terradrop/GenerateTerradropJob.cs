@@ -102,7 +102,8 @@ public sealed class GenerateTerradropJob : Job<bool>
         MapId = mapId;
         MetaDataComponent? metadata = null;
         var grid = _entManager.EnsureComponent<MapGridComponent>(MapUid);
-        var random = new Random(_missionParams.Seed);
+        var random = new RobustRandom();
+        random.SetSeed(_missionParams.Seed);
 
         _metaData.SetEntityName(
             MapUid,
@@ -244,7 +245,7 @@ public sealed class GenerateTerradropJob : Job<bool>
             reservedTiles.Add(tile.GridIndices);
         }
 
-        grid.SetTiles(tiles);
+        _map.SetTiles(MapUid, grid, tiles);
 
         var budgetEntries = new List<IBudgetEntry>();
 
@@ -380,7 +381,7 @@ public sealed class GenerateTerradropJob : Job<bool>
     private async Task<EntityUid?> SpawnRandomEntry(Entity<MapGridComponent> grid,
         IBudgetEntry entry,
         Dungeon dungeon,
-        Random random)
+        IRobustRandom random)
     {
         await SuspendIfOutOfTime();
 

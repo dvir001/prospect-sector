@@ -27,8 +27,8 @@ public sealed partial class TerradropConsoleMenu : FancyWindow
     /// </summary>
     public Action<string, int>? OnReconnectPressed;
 
-    [Dependency] private readonly IEntityManager _entity = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private IEntityManager _entity = default!;
+    [Dependency] private IPrototypeManager _prototype = default!;
 
     private readonly SpriteSystem _sprite;
 

@@ -13,10 +13,10 @@ namespace Content.Server._PS.Terradrop;
 /// Scales mob health and damage based on the terradrop dungeon level.
 /// Mirrors the scaling approach used by <see cref="Content.Server._PS.Stats.Systems.ItemStatsInitSystem"/>.
 /// </summary>
-public sealed class TerradropMobScalingSystem : EntitySystem
+public sealed partial class TerradropMobScalingSystem : EntitySystem
 {
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
+    [Dependency] private IConfigurationManager _cfg = default!;
+    [Dependency] private MobThresholdSystem _mobThreshold = default!;
 
     private float _healthCoefficient = 0.2f;
     private float _damageCoefficient = 0.2f;

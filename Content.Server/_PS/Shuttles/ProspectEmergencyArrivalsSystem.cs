@@ -17,14 +17,14 @@ using Robust.Shared.Timing;
 
 namespace Content.Server._PS.Shuttles;
 
-public sealed class ProspectEmergencyArrivalsSystem : SharedProspectEmergencyArrivalsSystem
+public sealed partial class ProspectEmergencyArrivalsSystem : SharedProspectEmergencyArrivalsSystem
 {
-    [Dependency] private readonly IConfigurationManager _cfgManager = default!;
-    [Dependency] private readonly StationSpawningSystem _stationSpawning = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly SharedMapSystem _mapSystem = default!;
-    [Dependency] private readonly MapLoaderSystem _loader = default!;
-    [Dependency] private readonly ShuttleSystem _shuttles = default!;
+    [Dependency] private IConfigurationManager _cfgManager = default!;
+    [Dependency] private StationSpawningSystem _stationSpawning = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private SharedMapSystem _mapSystem = default!;
+    [Dependency] private MapLoaderSystem _loader = default!;
+    [Dependency] private ShuttleSystem _shuttles = default!;
 
     /// <summary>
     ///     The first arrival is a little early, to save everyone 10s

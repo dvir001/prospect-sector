@@ -3,6 +3,7 @@ using Content.Shared._PS.Terradrop;
 using Content.Shared.Salvage.Expeditions;
 using Robust.Shared.Audio;
 using Robust.Shared.Map;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server._PS.Terradrop;
 
@@ -188,7 +189,7 @@ public sealed partial class TerradropSystem
         var allTechs = PrototypeManager.EnumeratePrototypes<TerradropMapPrototype>();
         Dictionary<string, TerradropMapAvailability> mapList;
 
-        var unlockedMaps = new HashSet<string>(data.UnlockedMapNodes);
+        var unlockedMaps = new HashSet<ProtoId<TerradropMapPrototype>>(data.UnlockedMapNodes);
         var highestCompleted = data.HighestCompletedLevels.Count > 0
             ? data.HighestCompletedLevels.Values.Max()
             : 0;

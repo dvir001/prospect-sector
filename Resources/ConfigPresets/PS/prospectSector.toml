@@ -61,9 +61,6 @@ allow_multi_server_play = false
 [atmos]
 max_explosion_range = 10
 
-[gateway]
-generator_enabled = false
-
 [shuttle]
 preload_grids = false
 

@@ -20,8 +20,8 @@ public sealed partial class CargoStorageMenu : FancyWindow
     private const int AddToCart10 = 10;
     private const int AddToCart30 = 30;
 
-    [Dependency] private readonly IPrototypeManager _protoManager = default!;
-    [Dependency] private readonly IComponentFactory _componentFactory = default!;
+    [Dependency] private IPrototypeManager _protoManager = default!;
+    [Dependency] private IComponentFactory _componentFactory = default!;
 
     public event Action<BaseButton.ButtonEventArgs>? OnAddToCart1;
     public event Action<BaseButton.ButtonEventArgs>? OnAddToCart5;

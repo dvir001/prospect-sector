@@ -8,10 +8,10 @@ namespace Content.Server._PS.ScatterOnSpawn;
 /// Throws the entity in a random direction on component startup, then removes itself.
 /// Replicates how explosions scatter debris — items slide outward and decelerate via friction.
 /// </summary>
-public sealed class PSScatterOnSpawnSystem : EntitySystem
+public sealed partial class PSScatterOnSpawnSystem : EntitySystem
 {
-    [Dependency] private readonly ThrowingSystem _throwing = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private ThrowingSystem _throwing = default!;
+    [Dependency] private IRobustRandom _random = default!;
 
     public override void Initialize()
     {

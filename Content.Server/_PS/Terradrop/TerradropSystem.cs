@@ -20,27 +20,27 @@ namespace Content.Server._PS.Terradrop;
 
 public sealed partial class TerradropSystem : SharedTerradropSystem
 {
-    [Dependency] private readonly AnchorableSystem _anchorable = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly BiomeSystem _biome = default!;
-    [Dependency] private readonly DungeonSystem _dungeon = default!;
-    [Dependency] private readonly IEntityManager _entityManager = default!;
-    [Dependency] private readonly ILogManager _logManager = default!;
-    [Dependency] private readonly SharedMapSystem _mapSystem = default!;
-    [Dependency] private readonly MetaDataSystem _metaData = default!;
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly LinkedEntitySystem _link = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly ITileDefinitionManager _tileDefinitionManager = default!;
-    [Dependency] private readonly StationSystem _station = default!;
-    [Dependency] private readonly PopupSystem _popup = default!;
-    [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
+    [Dependency] private AnchorableSystem _anchorable = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private BiomeSystem _biome = default!;
+    [Dependency] private DungeonSystem _dungeon = default!;
+    [Dependency] private IEntityManager _entityManager = default!;
+    [Dependency] private ILogManager _logManager = default!;
+    [Dependency] private SharedMapSystem _mapSystem = default!;
+    [Dependency] private MetaDataSystem _metaData = default!;
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private LinkedEntitySystem _link = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private ITileDefinitionManager _tileDefinitionManager = default!;
+    [Dependency] private StationSystem _station = default!;
+    [Dependency] private PopupSystem _popup = default!;
+    [Dependency] private UserInterfaceSystem _uiSystem = default!;
 
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly EntityStorageSystem _entityStorageSystem = default!;
-    [Dependency] private readonly DamageableSystem _damageableSystem = default!;
-    [Dependency] private readonly SharedBuckleSystem _buckle = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private EntityStorageSystem _entityStorageSystem = default!;
+    [Dependency] private DamageableSystem _damageableSystem = default!;
+    [Dependency] private SharedBuckleSystem _buckle = default!;
 
     public override void Initialize()
     {

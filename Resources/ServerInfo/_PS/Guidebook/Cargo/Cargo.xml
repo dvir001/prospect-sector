@@ -37,7 +37,7 @@
     <GuideEntityEmbed Entity="SalvageMagnet"/>
     <GuideEntityEmbed Entity="OreBox"/>
     <GuideEntityEmbed Entity="OreBag"/>
-    <GuideEntityEmbed Entity="OreIron"/>
+    <GuideEntityEmbed Entity="SteelOre"/>
   </Box>
 
   ### [color=cyan]2. Process Materials[/color]

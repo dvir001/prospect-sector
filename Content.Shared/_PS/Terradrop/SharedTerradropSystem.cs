@@ -7,9 +7,9 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared._PS.Terradrop;
 
-public abstract class SharedTerradropSystem : EntitySystem
+public abstract partial class SharedTerradropSystem : EntitySystem
 {
-    [Dependency] protected readonly IPrototypeManager PrototypeManager = default!;
+    [Dependency] protected IPrototypeManager PrototypeManager = default!;
 
     protected const int MissionLimit = 3;
 

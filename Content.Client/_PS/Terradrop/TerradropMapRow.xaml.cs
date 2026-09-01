@@ -12,8 +12,8 @@ namespace Content.Client._PS.Terradrop;
 [GenerateTypedNameReferences]
 public sealed partial class TerradropMapRow : Control
 {
-    [Dependency] private readonly IEntityManager _ent = default!;
-    [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private IEntityManager _ent = default!;
+    [Dependency] private IPrototypeManager _proto = default!;
 
     public Action<TerradropMapPrototype, int>? StartAction;
     public Action<int>? LevelChanged;

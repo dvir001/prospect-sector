@@ -14,7 +14,7 @@ namespace Content.Server._PS.CrateMachine;
 /// </summary>
 public sealed partial class CrateMachineSystem : SharedCrateMachineSystem
 {
-    [Dependency] private readonly AppearanceSystem _appearanceSystem = default!;
+    [Dependency] private AppearanceSystem _appearanceSystem = default!;
 
     /// <summary>
     /// Keep track of time in this function, in order to process the animation.

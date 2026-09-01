@@ -60,7 +60,6 @@ public sealed class ProspectDungeonTests
         var configManager = server.ResolveDependency<IConfigurationManager>();
         var entManager = server.ResolveDependency<IEntityManager>();
         var protoManager = server.ResolveDependency<IPrototypeManager>();
-        var mapManager = server.ResolveDependency<IMapManager>();
 
         await server.WaitAssertion(() =>
         {
